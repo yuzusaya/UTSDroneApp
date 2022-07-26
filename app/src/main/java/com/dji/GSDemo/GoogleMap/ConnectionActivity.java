@@ -127,14 +127,15 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    showToast( "registering, pls wait...");
+                    showToast( "Registering, please wait...");
                     DJISDKManager.getInstance().registerApp(getApplicationContext(), new DJISDKManager.SDKManagerCallback() {
                         @Override
                         public void onRegister(DJIError djiError) {
                             if (djiError == DJISDKError.REGISTRATION_SUCCESS) {
-                                DJILog.e("App registration", DJISDKError.REGISTRATION_SUCCESS.getDescription());
-                                DJISDKManager.getInstance().startConnectionToProduct();
                                 showToast("Register Success");
+                                DJILog.e("App registration", DJISDKError.REGISTRATION_SUCCESS.getDescription());
+                                Boolean productConnected = DJISDKManager.getInstance().startConnectionToProduct();
+                                showToast(productConnected?"Product Connected":"Failed to connect the product");
                             } else {
                                 showToast( "Register sdk fails, check network is available");
                             }
