@@ -146,6 +146,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         start = (Button) findViewById(R.id.start);
         stop = (Button) findViewById(R.id.stop);
 
+
         locate.setOnClickListener(this);
         add.setOnClickListener(this);
         clear.setOnClickListener(this);
@@ -153,7 +154,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         upload.setOnClickListener(this);
         start.setOnClickListener(this);
         stop.setOnClickListener(this);
-        camera.setOnClickListener(this);
+        //camera.setOnClickListener(this);
 
     }
 
@@ -648,12 +649,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             try {
 
                 JSONObject obj = new JSONObject();
-
                 obj.put("longtitude", params[0].get(1));
                 obj.put("latitude", params[0].get(0));
                 obj.put("altitude", params[0].get(2));
                 obj.put("sn",params[0].get(3));
-
 
                 String response = "";
                 URL url = new URL("http://34.87.78.237/index.php/create-session");

@@ -38,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="350dp"
         android:background="@drawable/round_btn"
-        android:text="Open"
+        android:text="Launch"
         android:textColor="@color/colorWhite"
         android:textSize="20dp"
         />

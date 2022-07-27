@@ -75,6 +75,9 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         IntentFilter filter = new IntentFilter();
         filter.addAction(DJIDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
+
+        //mBtnOpen.setEnabled(true);
+
     }
 
     /**
@@ -284,6 +287,7 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
                 } else {
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("pass", mProduct.getModel().getDisplayName());
+                    //Intent intent = new Intent(this, SecondActivity.class);
                     startActivity(intent);
                 }
                 break;
