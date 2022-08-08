@@ -647,13 +647,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         protected String doInBackground(List... params) {
 
             try {
-
                 JSONObject obj = new JSONObject();
-                obj.put("longtitude", params[0].get(1));
-                obj.put("latitude", params[0].get(0));
-                obj.put("altitude", params[0].get(2));
-                obj.put("sn",params[0].get(3));
+                String latitude= params[0].get(0).toString();
+                String longitude= params[0].get(1).toString();
+                String altitude= params[0].get(2).toString();
+                String serialNumber= params[0].get(3).toString();
 
+                obj.put("latitude", latitude);
+                obj.put("longtitude", longitude);
+                obj.put("altitude", altitude);
+                obj.put("sn",serialNumber);
+                setResultToToast("(Lat,long,alt) = ("+latitude+", "+longitude+", "+altitude+")");
+
+                if(true)
+                {
+                    return "";
+                }
                 String response = "";
                 URL url = new URL("http://34.87.78.237/index.php/create-session");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -684,7 +693,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 }
 
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
