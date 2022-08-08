@@ -60,6 +60,7 @@ import dji.common.mission.waypoint.WaypointMissionFinishedAction;
 import dji.common.mission.waypoint.WaypointMissionFlightPathMode;
 import dji.common.mission.waypoint.WaypointMissionHeadingMode;
 import dji.common.mission.waypoint.WaypointMissionUploadEvent;
+import dji.common.remotecontroller.HardwareState;
 import dji.common.useraccount.UserAccountState;
 import dji.common.util.CommonCallbacks;
 import dji.sdk.base.BaseProduct;
@@ -82,6 +83,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private boolean isAdd = false;
 
     private double droneLocationLat = 181, droneLocationLng = 181, droneLocationAt = 181;
+    private double droneVelocityX = 0, droneVelocityY = 181, droneVelocityZ = 181;
+
     private final Map<Integer, Marker> mMarkers = new ConcurrentHashMap<Integer, Marker>();
     private Marker droneMarker = null;
 
@@ -239,6 +242,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
 
+        mFlightController.getAircraftHeadingTurningSpeed(HardwareState.FlightModeSwitch.POSITION_ONE, new CommonCallbacks.CompletionCallbackWith<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+
+            }
+
+            @Override
+            public void onFailure(DJIError djiError) {
+
+            }
+        });
         if (mFlightController != null) {
             mFlightController.setStateCallback(new FlightControllerState.Callback() {
 
@@ -247,6 +261,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     droneLocationLat = djiFlightControllerCurrentState.getAircraftLocation().getLatitude();
                     droneLocationLng = djiFlightControllerCurrentState.getAircraftLocation().getLongitude();
                     droneLocationAt = djiFlightControllerCurrentState.getAircraftLocation().getAltitude();
+                    droneVelocityX = djiFlightControllerCurrentState.getVelocityX();
+                    droneVelocityY = djiFlightControllerCurrentState.getVelocityY();
+                    droneVelocityZ = djiFlightControllerCurrentState.getVelocityZ();
+
                     updateDroneLocation();
                     //cameraUpdate(); // Locate the drone's place
                 }
@@ -366,6 +384,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         list.add(droneLocationLng);
         list.add(droneLocationAt);
         list.add(serialNumber);
+        list.add(droneVelocityX);
+        list.add(droneVelocityY);
+        list.add(droneVelocityZ);
+
         new callAPI().execute(list);
 
         //Create MarkerOptions object
@@ -652,12 +674,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 String longitude= params[0].get(1).toString();
                 String altitude= params[0].get(2).toString();
                 String serialNumber= params[0].get(3).toString();
+                String velocityX= params[0].get(4).toString();
+                String velocityY= params[0].get(5).toString();
+                String velocityZ= params[0].get(6).toString();
 
                 obj.put("latitude", latitude);
                 obj.put("longtitude", longitude);
                 obj.put("altitude", altitude);
                 obj.put("sn",serialNumber);
-                setResultToToast("(Lat,long,alt) = ("+latitude+", "+longitude+", "+altitude+")");
+                setResultToToast("(Lat,long,alt) = ("+latitude+", "+longitude+", "+altitude+")\nSpeed(x,y,z): ("+velocityX+", "+velocityY+", "+velocityZ+")");
 
                 if(true)
                 {
